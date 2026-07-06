@@ -1,0 +1,908 @@
+:root {
+  --brand: #0d93d1;
+  --brand-dark: #0a6fa0;
+  --bg: #f7f9fb;
+  --card: #ffffff;
+  --text: #1c2733;
+  --muted: #5b6b7b;
+  --border: #dde5ec;
+  --nav-h: 128px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+
+/* Navbar */
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--card);
+  border-bottom: 1px solid var(--border);
+  padding: 0 1.5rem;
+  height: var(--nav-h);
+  /* Keep the nav bar pinned to the top of the viewport while scrolling. */
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.navbar__brand {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+}
+
+.navbar__logo {
+  height: 112px;
+  width: auto;
+  display: block;
+}
+
+.navbar__links {
+  display: flex;
+  align-items: center;
+  gap: 1.4rem;
+  font-size: 1.15rem;
+}
+
+.navbar__links a {
+  color: var(--text);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.navbar__links a:hover {
+  color: var(--brand-dark);
+}
+
+.navbar__email {
+  color: var(--text);
+  font-size: 1rem;
+}
+
+.navbar__logout {
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  color: var(--text);
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.navbar__install {
+  background: var(--brand);
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 0.45rem 0.9rem;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.navbar__install:hover {
+  background: var(--brand-dark);
+}
+
+/* On phones, stack the nav: logo on top, links wrapped underneath. */
+@media (max-width: 640px) {
+  .navbar {
+    height: auto;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.6rem 1rem;
+  }
+  .navbar__logo {
+    height: 64px;
+  }
+  .navbar__links {
+    width: 100%; /* forces the links onto their own row below the logo */
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.6rem 1rem;
+    font-size: 1rem;
+  }
+  /* The nav grows taller when links wrap, so the fixed --nav-h offset no longer
+     matches; let the search panel scroll normally instead of sticking. */
+  .search-panel {
+    position: static;
+  }
+}
+
+.page {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 1.5rem;
+}
+
+/* Search panel */
+.search-panel {
+  /* Stick directly beneath the nav bar so search + dietary filters stay
+     visible while the results list scrolls. */
+  position: sticky;
+  top: var(--nav-h);
+  z-index: 90;
+  background: var(--bg);
+  padding: 1.25rem 0 1rem;
+  margin-bottom: 0.5rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.search {
+  display: flex;
+  gap: 0.5rem;
+  max-width: 640px;
+}
+
+.search__input {
+  flex: 1;
+  padding: 0.6rem 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  font-size: 1rem;
+}
+
+.search__button,
+.modal__link {
+  background: var(--brand);
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 0.6rem 1.1rem;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.search__button:hover {
+  background: var(--brand-dark);
+}
+
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  border: none;
+  margin: 1rem 0 0;
+  padding: 0;
+}
+
+.filter {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+/* Auth forms */
+.auth {
+  max-width: 380px;
+  margin: 2rem auto;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 1.5rem;
+}
+
+.auth__title {
+  margin-top: 0;
+  color: var(--brand-dark);
+}
+
+.auth__form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+
+.auth__field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  font-size: 0.95rem;
+  color: var(--muted);
+}
+
+.auth__field input {
+  padding: 0.55rem 0.7rem;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  font-size: 1rem;
+}
+
+.auth__switch {
+  margin-top: 1rem;
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
+/* Home two-column layout: recipes + restaurant sidebar */
+.home-layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+
+@media (min-width: 800px) {
+  .home-layout {
+    grid-template-columns: 2fr 1fr;
+    align-items: start;
+  }
+  /* Drop the restaurant box below the results heading so its top lines up
+     with the first recipe card. Matches .results__header's height:
+     font-size (1.5rem) * line-height (1.3) + margin-bottom (1rem). */
+  .home-layout .restaurants {
+    margin-top: calc(1.5rem * 1.3 + 1rem);
+  }
+}
+
+.home-layout .main {
+  max-width: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* Restaurant finder */
+.restaurants {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 1.25rem;
+}
+
+.restaurants__title {
+  margin: 0;
+  color: var(--brand-dark);
+}
+
+.restaurants__sub {
+  margin: 0.25rem 0 1rem;
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+.restaurants__zip {
+  display: flex;
+  gap: 0.5rem;
+  margin: 0.75rem 0;
+}
+
+.restaurant-list {
+  list-style: none;
+  margin: 0.5rem 0 0;
+  padding: 0;
+  display: grid;
+  gap: 0.75rem;
+}
+
+.restaurant-card {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.75rem;
+}
+
+.restaurant-card__head {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5rem;
+  align-items: baseline;
+}
+
+.restaurant-card__name {
+  font-weight: 600;
+  color: var(--brand);
+  text-decoration: none;
+}
+
+.restaurant-card__rating {
+  color: #d98200;
+  font-size: 0.85rem;
+  white-space: nowrap;
+}
+
+.restaurant-card__cats,
+.restaurant-card__addr,
+.restaurant-card__phone {
+  margin: 0.2rem 0 0;
+  color: var(--muted);
+  font-size: 0.88rem;
+}
+
+/* Shopping list */
+.shopping__header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.shopping__actions {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.shopping-group {
+  margin-bottom: 1.25rem;
+}
+
+.shopping-group__title {
+  color: var(--brand-dark);
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 0.3rem;
+  margin-bottom: 0.5rem;
+}
+
+.shopping-group__items {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.shopping-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.35rem 0;
+}
+
+.shopping-item__label {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  cursor: pointer;
+}
+
+.shopping-item--checked .shopping-item__label span {
+  text-decoration: line-through;
+  color: var(--muted);
+}
+
+.shopping-item__remove {
+  background: none;
+  border: none;
+  color: var(--muted);
+  font-size: 1.3rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.shopping-item__remove:hover {
+  color: #c0392b;
+}
+
+/* Print-only / no-print helpers */
+.print-only {
+  display: none;
+}
+
+@media print {
+  /* Hide everything except the shopping list content when printing. */
+  .navbar,
+  .no-print {
+    display: none !important;
+  }
+  .print-only {
+    display: block;
+    color: #000;
+  }
+  .page {
+    padding: 0;
+  }
+  .shopping-item__label {
+    cursor: auto;
+  }
+  body {
+    background: #fff;
+  }
+}
+
+/* Results */
+.results__header {
+  color: var(--brand-dark);
+  /* Fixed height (line-box + bottom gap) so the restaurant sidebar can be
+     offset by the same amount to line up with the first recipe. */
+  margin: 0 0 1rem;
+  font-size: 1.5rem;
+  line-height: 1.3;
+}
+
+.status {
+  color: var(--muted);
+}
+
+.status--error {
+  color: #c0392b;
+}
+
+/* Warm "kitchen closed" notice (recipe API quota reached) — friendly, not an error */
+.kitchen-closed {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background: #fff8ec;
+  border: 1px solid #f0dcae;
+  border-left: 4px solid #e8a33d;
+  border-radius: 10px;
+  padding: 1.1rem 1.35rem;
+  max-width: 560px;
+  margin: 0.5rem 0;
+}
+
+.kitchen-closed__emoji {
+  font-size: 2rem;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.kitchen-closed__text {
+  margin: 0;
+  color: #7a5a1e;
+  line-height: 1.5;
+}
+
+.recipe-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.75rem;
+}
+
+/* Pagination controls beneath the results list */
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.pagination__btn {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 0.45rem 0.9rem;
+  cursor: pointer;
+  color: var(--brand);
+  font-size: 0.95rem;
+}
+
+.pagination__btn:hover:not(:disabled) {
+  background: var(--brand);
+  color: #fff;
+  border-color: var(--brand);
+}
+
+.pagination__btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.pagination__status {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.recipe-card__button {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+  text-align: left;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.75rem;
+  cursor: pointer;
+}
+
+.recipe-card__button:hover {
+  border-color: var(--brand);
+}
+
+.recipe-card__image {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 6px;
+  flex-shrink: 0;
+}
+
+.recipe-card__body {
+  display: flex;
+  flex-direction: column;
+}
+
+.recipe-card__title {
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.recipe-card__meta {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+/* Modal */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1000; /* above the sticky nav bar and search panel */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  z-index: 100;
+}
+
+.modal {
+  background: var(--card);
+  border-radius: 10px;
+  max-width: 560px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  padding: 1.5rem;
+  position: relative;
+}
+
+.modal__close {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.75rem;
+  background: none;
+  border: none;
+  font-size: 1.75rem;
+  line-height: 1;
+  cursor: pointer;
+  color: var(--muted);
+}
+
+.modal__title {
+  margin-top: 0;
+  color: var(--brand-dark);
+}
+
+.modal__image {
+  width: 100%;
+  max-height: 280px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.modal__ingredients {
+  padding-left: 1.25rem;
+}
+
+.modal__instructions {
+  padding-left: 1.25rem;
+}
+
+.modal__instructions li {
+  margin-bottom: 0.5rem;
+  line-height: 1.5;
+}
+
+.modal__link {
+  display: inline-block;
+  text-decoration: none;
+}
+
+.modal__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: center;
+  margin-top: 1.25rem;
+}
+
+.modal__hint {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.modal__source {
+  margin-top: 1rem;
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+.modal__source a {
+  color: var(--brand);
+}
+
+.fav-button {
+  background: #fff;
+  border: 1px solid var(--brand);
+  color: var(--brand);
+  border-radius: 6px;
+  padding: 0.55rem 1rem;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.fav-button:hover {
+  background: #eaf6fc;
+}
+
+.fav-button--saved {
+  background: var(--brand);
+  color: #fff;
+}
+
+.recipe-card {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.recipe-card > .recipe-card__button {
+  flex: 1;
+}
+
+.recipe-card__button--static {
+  cursor: default;
+}
+
+.recipe-card__button--static:hover {
+  border-color: var(--border);
+}
+
+.recipe-card__link {
+  color: var(--brand);
+  font-size: 0.9rem;
+  text-decoration: none;
+  margin-top: 0.25rem;
+}
+
+.fav-remove {
+  background: none;
+  border: 1px solid var(--border);
+  color: var(--muted);
+  border-radius: 6px;
+  padding: 0.5rem 0.8rem;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.fav-remove:hover {
+  border-color: #c0392b;
+  color: #c0392b;
+}
+
+/* ===========================================================================
+   Site footer — dark bar at the bottom of every page (About, install,
+   privacy, contact + original team GitHub credits).
+   =========================================================================== */
+.app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.app .page {
+  flex: 1;
+}
+
+.site-footer {
+  background: var(--text);
+  color: #cfe0dd;
+  padding: 2rem 1.5rem 1.5rem;
+  margin-top: 2rem;
+}
+
+.site-footer__inner {
+  max-width: 960px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.site-footer__links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5rem 1.6rem;
+  margin-bottom: 1.25rem;
+}
+
+.site-footer a {
+  color: #cfe0dd;
+  text-decoration: none;
+}
+
+.site-footer a:hover {
+  color: #fff;
+  text-decoration: underline;
+}
+
+.site-footer__copy {
+  color: #7d8b94;
+  font-size: 0.85rem;
+  line-height: 1.5;
+}
+
+/* Content pages (About / Install / Privacy) — centered, narrow column */
+.info-page {
+  max-width: 760px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+.info-page h2 {
+  color: var(--brand-dark);
+}
+
+.info-page h3 {
+  color: var(--brand-dark);
+  margin-bottom: 0.25rem;
+}
+
+.info-eyebrow {
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--brand-dark);
+  margin: 0 0 0.75rem;
+}
+
+.info-page h1 {
+  text-align: center;
+  line-height: 1.1;
+  margin: 0 0 1.25rem;
+  color: var(--text);
+}
+
+.info-lead {
+  font-size: 1.15rem;
+  line-height: 1.6;
+  color: var(--muted);
+  text-align: center;
+  margin: 0 auto 2.5rem;
+  max-width: 60ch;
+}
+
+.info-section-label {
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  font-size: 0.72rem;
+  color: var(--muted);
+  margin: 0 0 1rem;
+  padding-bottom: 0.6rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.info-credits {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 2.5rem;
+}
+
+.info-credits li {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.9rem 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.info-credits li:last-child {
+  border-bottom: none;
+}
+
+.info-credit-name {
+  font-weight: 600;
+  color: var(--text);
+  font-size: 1.1rem;
+}
+
+.info-credit-link {
+  font-size: 0.85rem;
+  white-space: nowrap;
+  color: var(--brand);
+  text-decoration: none;
+}
+
+.info-credit-link:hover {
+  text-decoration: underline;
+}
+
+.info-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--brand);
+  border-radius: 12px;
+  padding: 1.25rem 1.5rem;
+  margin: 0 0 1rem;
+  color: var(--muted);
+}
+
+.info-card p {
+  margin: 0;
+}
+
+.info-card strong {
+  color: var(--text);
+}
+
+/* One-tap PWA install button (Install page) */
+.install-cta {
+  margin: 0 0 2rem;
+}
+
+.btn-install {
+  background: var(--brand);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 0.7rem 1.4rem;
+  font-size: 1.05rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn-install:hover {
+  background: var(--brand-dark);
+}
+
+.install-status {
+  margin: 0 0 2rem;
+  color: var(--brand-dark);
+  font-weight: 600;
+}
+
+.btn-danger {
+  background: #c0392b;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 0.6rem 1.1rem;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 0.5rem;
+}
+
+.btn-danger:hover:not(:disabled) {
+  background: #a93226;
+}
+
+.btn-danger:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+@media (max-width: 520px) {
+  .info-credits li {
+    flex-direction: column;
+    gap: 0.15rem;
+  }
+}
